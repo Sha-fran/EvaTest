@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.eva.evatest.ui.theme.EvaTestTheme
-import com.eva.features.workwithcamera.ui.WorkWithCameraScreen
+import com.eva.features.workwithcamera.ui.workwithcamera.WorkWithCameraScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

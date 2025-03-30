@@ -10,7 +10,7 @@ import coil.transform.Transformation
 class SepiaTransformation : Transformation {
     override val cacheKey: String = "sepia"
     override suspend fun transform(input: Bitmap, size: coil.size.Size): Bitmap {
-        val output = Bitmap.createBitmap(input.width, input.height, input.config)
+        val output = Bitmap.createBitmap(input.width, input.height, input.config ?: Bitmap.Config.ARGB_8888)
         val canvas = Canvas(output)
         val paint = Paint()
         val matrix = ColorMatrix().apply {

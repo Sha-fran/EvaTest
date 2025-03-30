@@ -1,4 +1,4 @@
-package com.eva.features.workwithcamera.ui
+package com.eva.features.workwithcamera.ui.workwithcamera
 
 import android.Manifest
 import android.content.ContentValues

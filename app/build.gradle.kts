@@ -51,6 +51,9 @@ android {
 
 dependencies {
     implementation(project(":features:workwithcamera"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
