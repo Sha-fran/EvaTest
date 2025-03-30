@@ -29,18 +29,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import coil.compose.rememberAsyncImagePainter
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.eva.core.utils.extensions.getCameraProvider
 import com.eva.core.utils.filters.ImageFilter
 import com.eva.core.utils.photo.takePhoto
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkWithCameraScreen(
-    viewModel: WorkWithCameraScreenVM = hiltViewModel()
+    viewModel: WorkWithCameraScreenVM = hiltViewModel(),
+    onNavigate: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -70,14 +70,22 @@ fun WorkWithCameraScreen(
     }
 
     LaunchedEffect(Unit) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
             cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         } else {
             viewModel.onEvent(CameraEvent.PermissionGranted(Manifest.permission.CAMERA))
         }
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
                 galleryPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             } else {
                 viewModel.onEvent(CameraEvent.PermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
@@ -187,25 +195,33 @@ fun WorkWithCameraScreen(
                             ) {
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.GRAYSCALE)) },
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
                                 ) {
                                     Text("Gray")
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.SEPIA)) },
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
                                 ) {
                                     Text("Sepia")
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.BRIGHTNESS)) },
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
                                 ) {
                                     Text("Bright")
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.NONE)) },
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
                                 ) {
                                     Text("Reset")
                                 }
@@ -232,6 +248,15 @@ fun WorkWithCameraScreen(
                                     .padding(horizontal = 4.dp)
                             ) {
                                 Text("Gallery")
+                            }
+
+                            ElevatedButton(
+                                onClick = { onNavigate() },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 4.dp)
+                            ) {
+                                Text("Internet")
                             }
                         }
 
