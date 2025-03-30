@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.eva.core.utils.R
 import com.eva.core.utils.filters.ImageFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+const val SIMPLE_DATE_FORMAT = "yyyyMMdd_HHmmss"
 
 fun takePhoto(
     imageCapture: ImageCapture,
@@ -50,7 +52,7 @@ fun takePhoto(
 }
 
 private fun createTempImageFile(context: Context): File {
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    val timeStamp = SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.getDefault()).format(Date())
     val imageFileName = "JPEG_${timeStamp}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(imageFileName, ".jpg", storageDir)
@@ -70,9 +72,9 @@ suspend fun applyFilterToImage(context: Context, uri: Uri, filter: ImageFilter):
 
 
     val bitmap = (result as? android.graphics.drawable.BitmapDrawable)?.bitmap
-        ?: throw IllegalStateException("Failed to convert filtered image to Bitmap")
+        ?: throw IllegalStateException(context.getString(R.string.error_failed_to_convert_bitmap))
 
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+    val timeStamp = SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.getDefault()).format(Date())
     val imageFileName = "FILTERED_${timeStamp}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     val filteredFile = withContext(Dispatchers.IO) {

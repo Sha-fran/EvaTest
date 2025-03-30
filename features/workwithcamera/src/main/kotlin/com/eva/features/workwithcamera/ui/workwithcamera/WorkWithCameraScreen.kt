@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -34,6 +35,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.eva.core.utils.extensions.getCameraProvider
 import com.eva.core.utils.filters.ImageFilter
 import com.eva.core.utils.photo.takePhoto
+import com.eva.features.workwithcamera.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +101,7 @@ fun WorkWithCameraScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Camera & Gallery") },
+                    title = { Text(stringResource(id = R.string.camera_and_gallery)) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -117,7 +119,8 @@ fun WorkWithCameraScreen(
                         lensFacing = uiState.lensFacing,
                         onImageCaptured = { uri -> viewModel.onEvent(CameraEvent.ImageCaptured(uri)) },
                         onError = { exception ->
-                            Toast.makeText(context, "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
+                            val errorMessage = context.getString(R.string.camera_error_message, exception.message)
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                         },
                         onTakePhoto = { imageCapture -> viewModel.onEvent(CameraEvent.TakePhoto(imageCapture)) }
                     )
@@ -137,7 +140,7 @@ fun WorkWithCameraScreen(
                                 .background(Color(0x88000000))
                         ) {
                             Text(
-                                text = "↺",
+                                text = stringResource(id = R.string.circle_symbol_back),
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = Color.White
                             )
@@ -151,7 +154,7 @@ fun WorkWithCameraScreen(
                                 .background(Color(0x88000000))
                         ) {
                             Text(
-                                text = "×",
+                                text = stringResource(id = R.string.x_symbol),
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = Color.White
                             )
@@ -175,13 +178,12 @@ fun WorkWithCameraScreen(
                             if (uiState.imageUri != null) {
                                 Image(
                                     painter = rememberAsyncImagePainter(uiState.imageUri),
-                                    contentDescription = "Captured image",
+                                    contentDescription = stringResource(id = R.string.captured_image),
                                     modifier = Modifier.fillMaxSize(),
                                     contentScale = ContentScale.Fit
                                 )
                             } else {
-                                Text(
-                                    "No image selected",
+                                Text(text = stringResource(id = R.string.no_image_selected),
                                     textAlign = TextAlign.Center,
                                     color = Color.DarkGray
                                 )
@@ -199,7 +201,7 @@ fun WorkWithCameraScreen(
                                         .weight(1f)
                                         .padding(horizontal = 4.dp)
                                 ) {
-                                    Text("Gray")
+                                    Text(stringResource(id = R.string.gray))
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.SEPIA)) },
@@ -207,7 +209,7 @@ fun WorkWithCameraScreen(
                                         .weight(1f)
                                         .padding(horizontal = 4.dp)
                                 ) {
-                                    Text("Sepia")
+                                    Text(stringResource(id = R.string.sepia))
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.BRIGHTNESS)) },
@@ -215,7 +217,7 @@ fun WorkWithCameraScreen(
                                         .weight(1f)
                                         .padding(horizontal = 4.dp)
                                 ) {
-                                    Text("Bright")
+                                    Text(stringResource(id = R.string.bright))
                                 }
                                 Button(
                                     onClick = { viewModel.onEvent(CameraEvent.ApplyFilter(ImageFilter.NONE)) },
@@ -223,7 +225,7 @@ fun WorkWithCameraScreen(
                                         .weight(1f)
                                         .padding(horizontal = 4.dp)
                                 ) {
-                                    Text("Reset")
+                                    Text(stringResource(id = R.string.reset))
                                 }
                             }
                         }
@@ -238,7 +240,7 @@ fun WorkWithCameraScreen(
                                     .weight(1f)
                                     .padding(horizontal = 4.dp)
                             ) {
-                                Text("Camera")
+                                Text(stringResource(id = R.string.camera))
                             }
 
                             ElevatedButton(
@@ -247,7 +249,7 @@ fun WorkWithCameraScreen(
                                     .weight(1f)
                                     .padding(horizontal = 4.dp)
                             ) {
-                                Text("Gallery")
+                                Text(stringResource(id = R.string.gallery))
                             }
 
                             ElevatedButton(
@@ -256,7 +258,7 @@ fun WorkWithCameraScreen(
                                     .weight(1f)
                                     .padding(horizontal = 4.dp)
                             ) {
-                                Text("Internet")
+                                Text(stringResource(id = R.string.internet))
                             }
                         }
 
@@ -265,7 +267,7 @@ fun WorkWithCameraScreen(
                             enabled = uiState.imageUri != null,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Save to Gallery")
+                            Text(stringResource(id = R.string.save_to_gallery))
                         }
                     }
                 }

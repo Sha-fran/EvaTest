@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="error_failed_to_convert_bitmap">Failed to convert filtered image to Bitmap</string>
+    <string name="http">http</string>
+    <string name="https">https</string>
+    <string name="image_jpeg">image/jpeg</string>
+    <string name="failed_to_create_new_image_uri">Failed to create new image URI</string>
+    <string name="image_saved_to_gallery">Image saved to gallery</string>
+    <string name="failed_to_download_image_as_bitmap">Failed to download image as Bitmap</string>
+</resources>

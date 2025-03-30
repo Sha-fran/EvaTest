@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -35,10 +38,20 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.javax.inject)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Coil for image loading
     implementation(libs.coil.compose)
+
+    //Hilt
+    implementation(libs.hilt)
+    annotationProcessor(libs.hilt.compiler)
+    kapt(libs.hilt.ksp.compiler)
+}
+
+kapt {
+    correctErrorTypes = true
 }

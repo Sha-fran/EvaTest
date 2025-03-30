@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="get_image">Get Image</string>
+    <string name="image_from_unsplash">Image from Unsplash</string>
+    <string name="save_image">Save Image</string>
+    <string name="what_save_to_gallery">Do you want to save this image to your gallery?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="camera_and_gallery">Camera and Gallery</string>
+    <string name="camera_error_message">Error: %1$s</string>
+    <string name="circle_symbol_back">↺</string>
+    <string name="x_symbol">×</string>
+    <string name="captured_image">Captured image</string>
+    <string name="no_image_selected">No image selected</string>
+    <string name="gray">Gray</string>
+    <string name="sepia">Sepia</string>
+    <string name="bright">Bright</string>
+    <string name="reset">Reset</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="internet">Internet</string>
+    <string name="save_to_gallery">Save to Gallery</string>
 </resources>

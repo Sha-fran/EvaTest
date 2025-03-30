@@ -1,12 +1,8 @@
 package com.eva.features.workwithcamera.ui.workwithcamera
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -14,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eva.core.utils.filters.ImageFilter
 import com.eva.core.utils.photo.applyFilterToImage
+import com.eva.core.utils.saveimagetogallery.SaveImageToGallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -21,15 +18,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class WorkWithCameraScreenVM @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val saveImageToGallery: SaveImageToGallery
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(WorkWithCameraUiState.empty)
     val uiState = _uiState.asStateFlow()
@@ -136,61 +130,6 @@ class WorkWithCameraScreenVM @Inject constructor(
                 }
             }
         }
-    }
-}
-
-private suspend fun saveImageToGallery(context: Context, uri: Uri) {
-    try {
-        val contentResolver = context.contentResolver
-        val inputStream = contentResolver.openInputStream(uri)
-
-        if (inputStream != null) {
-            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val filename = "IMG_$timestamp.jpg"
-
-            val imageCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            } else {
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            }
-
-            val newImageDetails = ContentValues().apply {
-                put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    put(MediaStore.Images.Media.IS_PENDING, 1)
-                    put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                }
-            }
-
-            val newImageUri = contentResolver.insert(imageCollection, newImageDetails)
-
-            if (newImageUri != null) {
-                contentResolver.openOutputStream(newImageUri).use { outputStream ->
-                    inputStream.copyTo(outputStream!!)
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    newImageDetails.clear()
-                    newImageDetails.put(MediaStore.Images.Media.IS_PENDING, 0)
-                    contentResolver.update(newImageUri, newImageDetails, null, null)
-                }
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Image saved to gallery", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Failed to save image", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            withContext(Dispatchers.IO) {
-                inputStream.close()
-            }
-        }
-    } catch (e: Exception) {
-        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
     }
 }
 

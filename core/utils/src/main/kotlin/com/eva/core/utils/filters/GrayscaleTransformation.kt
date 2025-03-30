@@ -7,8 +7,10 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import coil.transform.Transformation
 
+const val CACHE_KEY_GRAYSCALE = "grayscale"
+
 class GrayscaleTransformation : Transformation {
-    override val cacheKey: String = "grayscale"
+    override val cacheKey: String = CACHE_KEY_GRAYSCALE
     override suspend fun transform(input: Bitmap, size: coil.size.Size): Bitmap {
         val output = Bitmap.createBitmap(input.width, input.height, input.config ?: Bitmap.Config.ARGB_8888)
         val canvas = Canvas(output)
