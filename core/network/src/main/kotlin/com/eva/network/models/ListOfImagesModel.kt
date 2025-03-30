@@ -3,17 +3,10 @@ package com.eva.network.models
 import com.google.gson.annotations.SerializedName
 
 data class ListOfImagesModel(
-    @SerializedName("data") var data: List<Data>
+    @SerializedName("id") val id: String,
+    @SerializedName("urls") val urls: Urls
 )
 
-data class Data(
-    @SerializedName("images") var images:Images
-)
-
-data class Images(
-    @SerializedName("original") var original:Original
-)
-
-data class Original(
-    @SerializedName("url") var url:String
+data class Urls(
+    @SerializedName("regular") val regular: String
 )

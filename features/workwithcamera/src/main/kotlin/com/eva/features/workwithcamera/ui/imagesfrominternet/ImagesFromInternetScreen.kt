@@ -19,24 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 
 @Composable
 fun ImagesFromInternetScreen(
     viewModel: ImagesFromInternetScreenVM = hiltViewModel(),
     onBack: () -> Unit = {}
 ) {
-    val listOfImages = viewModel.listOfImagesState
-
-    Surface(
-        color = Color.White
-    ) {
+    Surface(color = Color.White) {
         val uiState by viewModel.listOfImagesState.collectAsState()
 
         BackHandler(onBack = onBack)
 
-        Scaffold(
-            modifier = Modifier.systemBarsPadding()
-        ) { paddingValues ->
+        Scaffold(modifier = Modifier.systemBarsPadding()) { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -49,8 +44,12 @@ fun ImagesFromInternetScreen(
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(items = uiState.listOfImages) {
-
+                    items(items = uiState.listOfImages) { image ->
+                        AsyncImage(
+                            model = image.url,
+                            contentDescription = "Image from Unsplash",
+                            modifier = Modifier.fillMaxSize()
+                        )
                     }
                 }
             }

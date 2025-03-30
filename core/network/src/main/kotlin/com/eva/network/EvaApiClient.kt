@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-const val BASE_URL = "https://api.giphy.com/"
+const val BASE_URL = "https://api.unsplash.com/"
 
 class EvaApiClient @Inject constructor() {
     val evaApiClient: Retrofit = Retrofit.Builder()
