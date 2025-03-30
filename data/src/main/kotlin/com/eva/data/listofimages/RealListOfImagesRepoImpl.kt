@@ -9,7 +9,8 @@ import javax.inject.Inject
 class RealListOfImagesRepoImpl @Inject constructor(
     remote: EvaApiClient
 ): RealListOfImagesRepo {
-    private val evaApiInterface: EvaApiInterface =remote.evaApiClient.create(EvaApiInterface::class.java)
+    private val evaApiInterface = remote.evaApiClient.create(EvaApiInterface::class.java)
+
     override suspend fun getListOfImages(): List<ListOfImagesModel> =
         evaApiInterface.getListOfOrganisations()
 }

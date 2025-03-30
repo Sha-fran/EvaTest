@@ -46,6 +46,12 @@ dependencies {
     implementation(libs.hilt)
     annotationProcessor(libs.hilt.compiler)
     kapt(libs.hilt.ksp.compiler)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 }
 
 kapt {

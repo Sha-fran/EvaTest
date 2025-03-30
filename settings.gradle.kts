@@ -23,6 +23,5 @@ rootProject.name = "EvaTest"
 include(":app")
 include(":features:workwithcamera")
 include(":core:utils")
-include(":core:ui")
 include(":data")
 include(":core:network")
